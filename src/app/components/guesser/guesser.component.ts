@@ -16,9 +16,9 @@ export interface State {
 
 export interface Country {
   code: string;
-  name: string;
   lat: number;
   long: number;
+  name: string;
 }
 
 @Component({
@@ -204,13 +204,13 @@ export class GuesserComponent implements OnInit {
 
     if(this.countryCtrl.value == this.solution.name){
       this.result = "Right"
-      this.guesses.push(c)
+      this.guesses.unshift(c)
       this.gameOver("CONGRAULATIONS !!!")
       return
     }else{
       this.guessTries -= 1
       this.result = this.guessTries + " tries left"
-      this.guesses.push(c)
+      this.guesses.unshift(c)
       this.countryCtrl.reset()
       if(this.guessTries == 0){
         this.gameOver("GAME OVER")
