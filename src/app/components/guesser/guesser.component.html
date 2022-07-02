@@ -2,7 +2,7 @@
   <app-arrow [degrees]="bearing" *ngIf="!gameEnded"></app-arrow>
   <div id="solution-contianer" *ngIf="gameEnded">
     <p id="solution">{{solution.name}}</p>
-    <div [class]="'flag fi fi-'+solution.code" ></div>
+    <div [class]="'flag fi fi-'+solution.code.toLowerCase()" ></div>
     <div>
       <a mat-button [href]="'https://www.google.com/maps/search/?api=1&query='+solution.name" target="_blank">Show me on Google maps <mat-icon>public</mat-icon></a>
     </div>
@@ -11,9 +11,31 @@
     <mat-progress-bar id="progress-bar" color="primary" mode="determinate" [value]="progress" ></mat-progress-bar>
     <div id="result">{{result}}</div>
   </div>
+  <div id="form-container">
+      <form class="country-form" (keyup.enter)="checkGuess()">
+        <mat-form-field floatLabel='never'class="form-field" appearance="fill">
+          <input matInput
+                aria-label="Country"
+                [matAutocomplete]="auto"
+                [formControl]="countryCtrl">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
+              <span>{{country.name}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+    </form>
+    <div id="button-container">
+      <app-button id="button-guess" text="GUESS" color="primary" [disabled]="guessButtonDisabled" (btnClick)="checkGuess()"></app-button>
+
+      <app-button id="button-playagain" text="PLAY AGAIN" color="basic" [disabled]="playButtonDisabled" (btnClick)="resetGame()"></app-button>
+    </div>
+  </div>
+
+
   <div id="guesses-container">
     <div class="guesses" *ngFor="let guess of guesses">
-      <div [class]="'flag fi fi-'+guess.code" ></div><div>{{guess.name}}</div><div>{{getDistanceFromLatLonInKm(guess.lat,guess.long,solution.lat,solution.long)}} Km </div>
+      <div [class]="'flag fi fi-'+guess.code.toLowerCase()" ></div><div>{{guess.name}}</div><div>{{getDistanceFromLatLonInKm(guess.lat,guess.long,solution.lat,solution.long)}} Km </div>
     </div>
   </div>
   
@@ -32,20 +54,5 @@
         </mat-autocomplete>
       </mat-form-field>
   </form> -->
-  <form class="country-form" (keyup.enter)="checkGuess()">
-      <mat-form-field floatLabel='never'class="form-field" appearance="fill">
-        <input matInput
-              aria-label="Country"
-              [matAutocomplete]="auto"
-              [formControl]="countryCtrl">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
-            <span>{{country.name}}</span>
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-  </form>
-  
-  <app-button id="button-guess" text="GUESS" color="primary" [disabled]="guessButtonDisabled" (btnClick)="checkGuess()"></app-button>
-  <app-button id="button-playagain" text="PLAY AGAIN" color="basic" [disabled]="playButtonDisabled" (btnClick)="resetGame()"></app-button>
+
 </div>
