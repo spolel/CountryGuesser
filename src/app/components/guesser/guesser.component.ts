@@ -8,11 +8,6 @@ import { HttpClient } from "@angular/common/http";
 import {countries} from './countries'
 import {countriesDict} from './countriesDict'
 
-export interface State {
-  flag: string;
-  name: string;
-  population: string;
-}
 
 export interface Country {
   code: string;
@@ -27,9 +22,7 @@ export interface Country {
   styleUrls: ['./guesser.component.css']
 })
 export class GuesserComponent implements OnInit {
-  stateCtrl = new FormControl('');
   countryCtrl = new FormControl('');
-  filteredStates: Observable<State[]>;
   filteredCountries: Observable<Country[]>;
   solution: Country;
   bearing: number;
@@ -39,6 +32,7 @@ export class GuesserComponent implements OnInit {
   guessButtonDisabled: boolean;
   playButtonDisabled: boolean;
   gameEnded: boolean;
+  helpOpen: boolean;
 
   guessTries: number;
   result: string;
@@ -48,43 +42,9 @@ export class GuesserComponent implements OnInit {
   countries: Country[] = countries;
   countriesDict: Object = countriesDict;
 
-
-  states: State[] = [
-    {
-      name: 'Arkansas',
-      population: '2.978M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_Arkansas.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg',
-    },
-    {
-      name: 'California',
-      population: '39.14M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_California.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_California.svg',
-    },
-    {
-      name: 'Florida',
-      population: '20.27M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_Florida.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Florida.svg',
-    },
-    {
-      name: 'Texas',
-      population: '27.47M',
-      // https://commons.wikimedia.org/wiki/File:Flag_of_Texas.svg
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Texas.svg',
-    },
-  ];
-
   constructor(private http: HttpClient) {
-    console.log(
-      'called constructor'
-    )
+    //console.log('called constructor')
 
-    this.filteredStates = this.stateCtrl.valueChanges.pipe(
-      startWith(''),
-      map(state => (state ? this._filterStates(state) : this.states.slice())),
-    );
     this.filteredCountries = this.countryCtrl.valueChanges.pipe(
       startWith(''),
       map(country => (country ? this._filterCountries(country) : this.countries.slice())),
@@ -92,7 +52,7 @@ export class GuesserComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('called init')
+    //console.log('called init')
 
     this.solution = this.countries[Math.floor(Math.random()*this.countries.length)];
     console.log("Solution: " + this.solution.name)
@@ -107,10 +67,22 @@ export class GuesserComponent implements OnInit {
     this.countryCtrl.reset()
     this.guessButtonDisabled = false
     this.playButtonDisabled = false
+    this.bearing = 0
     this.distance = 40075
     this.progress = 0
     this.gameEnded = false
+    this.helpOpen = false
   }
+
+  openHelp(){
+    this.helpOpen = true
+  }
+
+  closeHelp(){
+    this.helpOpen = false
+  }
+
+
 
   getProgress(distance){
     return (1-(distance/40075))*100
@@ -128,7 +100,7 @@ export class GuesserComponent implements OnInit {
     let brng = Math.atan2(y, x);
     brng = this.rad2deg(brng);
 
-    return Math.floor((brng + 360) % 360);
+    return (brng + 360) % 360;
   }
 
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -142,8 +114,6 @@ export class GuesserComponent implements OnInit {
       ; 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
-
-    this.distance = d
 
     return Math.floor(d);
   }
@@ -194,7 +164,7 @@ export class GuesserComponent implements OnInit {
       return
     }
 
-    console.log(this.guessTries)
+    //console.log(this.guessTries)
 
     let c = countriesDict[this.countryCtrl.value]
 
@@ -229,12 +199,6 @@ export class GuesserComponent implements OnInit {
 
   resetGame(){
     this.ngOnInit();
-  }
-
-  private _filterStates(value: string): State[] {
-    const filterValue = value.toLowerCase();
-
-    return this.states.filter(state => state.name.toLowerCase().includes(filterValue));
   }
 
   private _filterCountries(value: string): Country[] {

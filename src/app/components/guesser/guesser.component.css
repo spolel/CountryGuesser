@@ -1,8 +1,11 @@
 @import url('../../../../node_modules/flag-icons/css/flag-icons.min.css'); 
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lobster+Two');
+@import url('https://fonts.googleapis.com/css2?family=Sofia&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
 
 .container{
-  /* font-family: Raleway; */
   width : 35%;
   margin-left: auto;
   margin-right: auto;
@@ -10,19 +13,67 @@
   align-items: center; 
   justify-content: center;
   flex-direction: column;
+  
+  font-family: Oleo Script;
 }
 
 @media only screen and (max-width: 1500px) {
   .container{
-    width : 50%;
+    width : 60%;
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
   .container{
     width : 90%;
   }
 }
+
+#title-container{
+  display: flex; 
+  align-items: center; 
+  flex-direction: row;
+  margin: 10px 10px;
+
+}
+
+#title{
+  font-family: Berkshire Swash;
+  font-size: 3em;
+  line-height: 1 ;
+}
+
+#button-openhelp{
+  margin-left:20px
+}
+
+#button-closehelp{
+  margin-left:20px;
+  transform: scale(1.2);
+}
+
+#help-container{
+  display: flex; 
+  align-items: center; 
+  flex-direction: column;
+  margin: 10px 10px;
+
+  font-size: 1.5em;
+  font-family: Roboto;
+  line-height: 1 ;
+}
+
+#help-container h1{
+  text-align: center;
+  font-size: 2em;
+}
+
+
+#button-closehelp{
+  margin-left:20px
+  align
+}
+
 
 #guesses-container{
   /* min-height: 400px; */
@@ -38,7 +89,7 @@
 }
 
 #solution{
-  font-size: 3em;
+  font-size: 2.3em;
   line-height: 1 ;
 }
 
@@ -53,14 +104,24 @@
   font-size: 1.5em;
 }
 
+#distance{
+  margin:10px 10px;
+  font-size: 1.3em;
+}
+
 #result{
   margin: 10px 10px;
+}
+
+#button-help{
+  float:left
 }
 
 #form-container{
   width:100%;
   display: flex; 
-  align-items: flex-start; 
+  align-items: center; 
+  justify-content: space-around;
   flex-direction: row;
 }
 
@@ -87,6 +148,11 @@
     width: 80%;
     font-size: 1.5em;
   }
+
+/* .country-form input{
+  font-family: Oleo Script;
+} */
+
   
 .form-field {
     width: 100%;
@@ -94,6 +160,13 @@
     padding-top: 0;
 }
 
+.option{
+  display: flex; 
+  align-items: center; 
+  justify-content: left;
+  gap: 10px;
+  flex-direction: row;
+}
   
 
 .guesses{
