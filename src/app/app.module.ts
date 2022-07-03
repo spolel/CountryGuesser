@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CompassComponent } from './components/compass/compass.component';
 import { ArrowComponent } from './components/arrow/arrow.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -24,7 +25,8 @@ import { ArrowComponent } from './components/arrow/arrow.component';
     ButtonComponent,
     GuesserComponent,
     CompassComponent,
-    ArrowComponent
+    ArrowComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

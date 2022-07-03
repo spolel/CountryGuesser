@@ -39,6 +39,7 @@ export class GuesserComponent implements OnInit {
   guessButtonDisabled: boolean;
   playButtonDisabled: boolean;
   gameEnded: boolean;
+  helpOpen: boolean;
 
   guessTries: number;
   result: string;
@@ -77,9 +78,7 @@ export class GuesserComponent implements OnInit {
   ];
 
   constructor(private http: HttpClient) {
-    console.log(
-      'called constructor'
-    )
+    //console.log('called constructor')
 
     this.filteredStates = this.stateCtrl.valueChanges.pipe(
       startWith(''),
@@ -92,7 +91,7 @@ export class GuesserComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('called init')
+    //console.log('called init')
 
     this.solution = this.countries[Math.floor(Math.random()*this.countries.length)];
     console.log("Solution: " + this.solution.name)
@@ -107,10 +106,22 @@ export class GuesserComponent implements OnInit {
     this.countryCtrl.reset()
     this.guessButtonDisabled = false
     this.playButtonDisabled = false
+    this.bearing = 0
     this.distance = 40075
     this.progress = 0
     this.gameEnded = false
+    this.helpOpen = false
   }
+
+  openHelp(){
+    this.helpOpen = true
+  }
+
+  closeHelp(){
+    this.helpOpen = false
+  }
+
+
 
   getProgress(distance){
     return (1-(distance/40075))*100
@@ -128,7 +139,7 @@ export class GuesserComponent implements OnInit {
     let brng = Math.atan2(y, x);
     brng = this.rad2deg(brng);
 
-    return Math.floor((brng + 360) % 360);
+    return (brng + 360) % 360;
   }
 
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -142,8 +153,6 @@ export class GuesserComponent implements OnInit {
       ; 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
-
-    this.distance = d
 
     return Math.floor(d);
   }
@@ -194,7 +203,7 @@ export class GuesserComponent implements OnInit {
       return
     }
 
-    console.log(this.guessTries)
+    //console.log(this.guessTries)
 
     let c = countriesDict[this.countryCtrl.value]
 

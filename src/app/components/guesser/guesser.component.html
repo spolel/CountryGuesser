@@ -1,6 +1,33 @@
 <div class="container">
-  <app-arrow [degrees]="bearing" *ngIf="!gameEnded"></app-arrow>
-  <div id="solution-contianer" *ngIf="gameEnded">
+  <div id="title-container" >
+    <div id="title" >COUNTRY GUESSER </div>
+    <button id="button-openhelp" mat-icon-button (click)="openHelp()">
+      <mat-icon>help</mat-icon>
+    </button>
+  </div>
+  <div id="help-container" *ngIf="helpOpen">
+    <div>
+      <h1>HOW TO PLAY</h1>
+      <p>
+        You have <b>6</b> tries to <b>guess the country</b>.
+        <br><br>
+        After each guess the game will show you:
+      </p>
+        <ul>
+          <li><b>distance</b> from your guess to the destination in km</li>
+          <li><b>direction</b> from your guess to the destination on the compass (the red side points there)</li>
+        </ul>
+      <p>
+        To enter your guess write into the field the name of the country. Note that the name must match exactly as seen in the autocomplete so better <b>select it from the list</b>.
+        <br> To enter the guess either press the <b>ENTER</b> key or click on the <b>GUESS</b> button.
+        <br><br>
+        You can reset the game at any time by pressing the <b>PLAY AGAIN</b> button.
+      </p>
+    </div>
+    <app-button id="button-closehelp" text="Close" color="basic" [disabled]="false" (btnClick)="closeHelp()"></app-button>
+  </div>
+  <app-arrow [degrees]="bearing" *ngIf="!gameEnded && !helpOpen"></app-arrow>
+  <div id="solution-contianer" *ngIf="gameEnded && !helpOpen">
     <p id="solution">{{solution.name}}</p>
     <div [class]="'flag fi fi-'+solution.code.toLowerCase()" ></div>
     <div>
@@ -8,8 +35,13 @@
     </div>
   </div>
   <div id="result-container">
+    <div id="distance">    
+      {{distance == 40075 ? "?????" : distance}} Km
+    </div>
     <mat-progress-bar id="progress-bar" color="primary" mode="determinate" [value]="progress" ></mat-progress-bar>
-    <div id="result">{{result}}</div>
+    <div id="result">    
+      <div>{{result}}</div>
+    </div>
   </div>
   <div id="form-container">
       <form class="country-form" (keyup.enter)="checkGuess()">
@@ -29,6 +61,7 @@
       <app-button id="button-guess" text="GUESS" color="primary" [disabled]="guessButtonDisabled" (btnClick)="checkGuess()"></app-button>
 
       <app-button id="button-playagain" text="PLAY AGAIN" color="basic" [disabled]="playButtonDisabled" (btnClick)="resetGame()"></app-button>
+      
     </div>
   </div>
 
