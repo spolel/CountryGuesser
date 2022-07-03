@@ -160,6 +160,13 @@
     padding-top: 0;
 }
 
+.option{
+  display: flex; 
+  align-items: center; 
+  justify-content: left;
+  gap: 10px;
+  flex-direction: row;
+}
   
 
 .guesses{

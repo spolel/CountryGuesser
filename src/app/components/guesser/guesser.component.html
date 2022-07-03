@@ -52,7 +52,10 @@
                 [formControl]="countryCtrl">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
-              <span>{{country.name}}</span>
+              <div class="option">
+                <span [class]="'flag fi fi-'+country.code.toLowerCase()" [ngStyle]="{'margin-right': '10 px'}" ></span>
+                <span >{{ country.name }}</span>
+              </div>
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -71,21 +74,5 @@
       <div [class]="'flag fi fi-'+guess.code.toLowerCase()" ></div><div>{{guess.name}}</div><div>{{getDistanceFromLatLonInKm(guess.lat,guess.long,solution.lat,solution.long)}} Km </div>
     </div>
   </div>
-  
-  <!-- <form class="example-form" (keyup.enter)="checkGuess()">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <input matInput
-              aria-label="State"
-              [matAutocomplete]="auto"
-              [formControl]="stateCtrl">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
-            <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
-            <span>{{state.name}}</span> |
-            <small>Population: {{state.population}}</small>
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-  </form> -->
 
 </div>
